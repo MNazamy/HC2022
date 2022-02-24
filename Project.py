@@ -20,10 +20,14 @@ class Project:
         return self.finishDay
 
 
-    def finishProject(self, currDay):
+    def finishProject(self, currDay, skillDict):
         for i in range(self.numRoles):
             if self.contributorList[i].checkSkillLevel() <= self.rolesRequired[i][1]:
                 self.contributorList[i].upgradeSkill()
+                try:
+                    skillDict[self.numRoles[i][0]][self.contributorList[i].checkSkillLevel()].append(self.contributorList[i])
+                except:
+                    skillDict[self.numRoles[i][0]][self.contributorList[i].checkSkillLevel()] = [ self.contributorList[i] ]
 
         for contributor in self.contributorList:
           contributor.completeProject()
