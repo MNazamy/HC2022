@@ -1,8 +1,13 @@
 
 from Contributor import Contributor
 from Project import Project
+import heapq
 
 def readInput(filename):
+    contributors = []
+    projects = []
+    skd = {}
+
     
     with open(filename, "r") as inFile:
 
@@ -10,10 +15,8 @@ def readInput(filename):
         words = firstLine.split()
         numContributors = int(words[0])
         numProjects = int(words[1])
-        contributors = []
-        projects = []
-
-            #Loop for contributors input
+        
+        #Loop for contributors input
         for _ in range(numContributors):
             line = inFile.readline()
             words = line.split()
@@ -28,11 +31,24 @@ def readInput(filename):
                 nameOfSkill = words[0]
                 skillLvl = int(words[1])
                 temp.addSkill(nameOfSkill, skillLvl)
-                temp.debug()
+
+                #creating skill dicitonary
+                try:
+                    currSk = skd[nameOfSkill]
+                except:
+                    skd[nameOfSkill] = {}
+                    currSk = skd[nameOfSkill]
+                try:
+                    currSk[skillLvl].append(temp)
+                except:
+                    currSk[skillLvl] = [temp]
             
+            #creating available person list
             contributors.append(temp)
 
-            #Loop for project input
+
+
+        #Loop for project input
         for _ in range(numProjects):
             line = inFile.readline()
             words = line.split()
@@ -50,15 +66,32 @@ def readInput(filename):
                 skillNeeded = words[0]
                 requiredLvl = int(words[1])
                 temp.addRole(skillNeeded, requiredLvl)
-                temp.debug()
 
-            projects.append(temp)
+            projects.append((temp.sortingValue ,temp))
+    return contributors, projects, skd
+
+    
+
 
 
 
 
 def run(fileName):
-    readInput(fileName)
+    # str (skill) -> int (skill level) -> list of people
+    skillDict = {}
+
+    # list of all people available for work
+    peopleAvailable = []
+
+    #priority queue of projects
+    projectPQ = []
+
+
+    peopleAvailable, projectPQ, skillDict = readInput(fileName)
+
+    heapq.heapify(projectPQ)
+
+
 
     
 

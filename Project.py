@@ -25,12 +25,19 @@ class Project:
             if self.contributorList[i].checkSkillLevel() <= self.rolesRequired[i][1]:
                 self.contributorList[i].upgradeSkill()
 
-            if currDay <= self.bestBefore:
-                return self.score
-            elif currDay-self.bestBefore < self.score:
-                return self.score-(currDay-self.bestBefore)
-            else:
-                return 0
+        for contributor in self.contributorList:
+          contributor.completeProject()
+        
+        if currDay <= self.bestBefore:
+            return self.score
+        elif currDay-self.bestBefore < self.score:
+            return self.score-(currDay-self.bestBefore)
+        else:
+            return 0
         
 
+    def sortingValue(self, currentDay):
+        bestByOverage = self.bestBefore - currentDay - self.numberOfDays
+        if bestByOverage >= 0: bestByOverage = 0
+        return (self.score - bestByOverage) / self.numberOfDays
 
