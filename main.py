@@ -74,13 +74,13 @@ def readInput(filename):
 
 def output(filename, pcount, plist):
     with open(filename, "w") as file:
-        file.write(pcount)
+        file.write(str(pcount) + "\n")
         for _ in plist:
-            file.write(_.name)
+            file.write(_.name + "\n")
             s = ""
             for person in _.contributorList:
                 s += person.name + " "
-            file.write(s)
+            file.write(s + "\n")
 
 
 def checkProject(currDay, project, pplAvail, skillDict):
@@ -96,10 +96,10 @@ def checkProject(currDay, project, pplAvail, skillDict):
                 for k in range(len(personList)):
                     if not personList[k].isOnProject():
                         person = personList[k]
-                        personList.remove(k)
+                        del personList[k]
                         roleList[i] = person
                         found = True
-                break
+                        break
             except:
                 pass
 
@@ -139,31 +139,34 @@ def run(fileName):
     numPeopleAvail = len(peopleAvailable)
 
     while projectsWorthPointsAreAvailable:
-        for _ in projectPQ:
-            _ = (_[1].sortingValue(day), _[1])
+        length = len(projectPQ)
+        for _ in range(length):
+            projectPQ[_] = (projectPQ[_][1].sortingValue(day), projectPQ[_][1])
 
         heapq.heapify(projectPQ)
 
         projectAssigned = -1
-        while(len(projectPQ) > 0 and numPeopleAvail > 0 and projectPQ[0][0] > 0):
+        while(len(projectPQ) > 0 and numPeopleAvail > 0 and projectPQ[0][0] < 0):
             currPrj = heapq.heappop(projectPQ)
             projectAssigned, numPeopleAvail = checkProject(day, currPrj[1], numPeopleAvail,  skillDict)
             if projectAssigned == -1:
                 laterList.append(currPrj)
             else:
-                currPrjPQ.append((currPrj.numberOfDays-1, currPrj[1]))
+                currPrjPQ.append((currPrj[1].numberOfDays-1, currPrj[1]))
                 projectOrder.append(currPrj[1])
         
         projectPQ += laterList
+        laterList = []
         heapq.heapify(projectPQ)
         heapq.heapify(currPrjPQ)
 
-        while(currPrjPQ[0][0] == day):
+        while(len(currPrjPQ) > 0 and currPrjPQ[0][0] == day):
             currPrj = heapq.heappop(currPrjPQ)[1]
-            score += currPrj.finishProject(day)
+            score += currPrj.finishProject(day, skillDict)
             projectCount += 1
         
-        projectsWorthPointsAreAvailable = projectPQ[0][0] > 0
+        if len(projectPQ) > 0 and len(currPrjPQ) == 0:
+            projectsWorthPointsAreAvailable = projectPQ[0][0] < 0
 
         day += 1
 
@@ -171,4 +174,4 @@ def run(fileName):
 
 
 if __name__ == "__main__":
-        run("./a_an_example.in.txt")
+        run("./b_better_start_small.in.txt")

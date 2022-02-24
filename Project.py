@@ -25,12 +25,12 @@ class Project:
 
     def finishProject(self, currDay, skillDict):
         for i in range(self.numRoles):
-            if self.contributorList[i].checkSkillLevel() <= self.rolesRequired[i][1]:
-                self.contributorList[i].upgradeSkill()
+            if self.contributorList[i].checkSkillLevel(self.rolesRequired[i][0]) <= self.rolesRequired[i][1]:
+                self.contributorList[i].upgradeSkill(self.rolesRequired[i][0])
                 try:
-                    skillDict[self.numRoles[i][0]][self.contributorList[i].checkSkillLevel()].append(self.contributorList[i])
+                    skillDict[self.rolesRequired[i][0]][self.contributorList[i].checkSkillLevel(self.rolesRequired[i][0])].append(self.contributorList[i])
                 except:
-                    skillDict[self.numRoles[i][0]][self.contributorList[i].checkSkillLevel()] = [ self.contributorList[i] ]
+                    skillDict[self.rolesRequired[i][0]][self.contributorList[i].checkSkillLevel(self.rolesRequired[i][0])] = [ self.contributorList[i] ]
 
         for contributor in self.contributorList:
           contributor.completeProject()
@@ -46,6 +46,6 @@ class Project:
     def sortingValue(self, currentDay):
         bestByOverage = self.bestBefore - currentDay - self.numberOfDays
         if bestByOverage >= 0: bestByOverage = 0
-        self.currScore = (self.score - bestByOverage) / self.numberOfDays 
-        return (self.score - bestByOverage) / self.numberOfDays
+        self.currScore = -(self.score + bestByOverage) / self.numberOfDays 
+        return -(self.score + bestByOverage) / self.numberOfDays
 

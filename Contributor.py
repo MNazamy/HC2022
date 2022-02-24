@@ -18,14 +18,15 @@ class Contributor:
         self.onProject = False
     
     def upgradeSkill(self,skillName):
-        if (self.skills.get(skillName, default=0) > 0):
-            self.skills[skillName] = self.skills.get(skillName) + 1
-        else:
-            self.skills[skillName] = 1 
+        try:
+            self.skills[skillName] += 1
+        except:
+            self.skills[skillName] = 1
+
 
     def checkSkillLevel(self, skillName):
-        if (self.skills.get(skillName, default=0) > 0):
-            return self.skills.get(skillName)
-        else:
-            return 0 
+        try:
+                return self.skills[skillName]
+        except:
+            return 0
     
