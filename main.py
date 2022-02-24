@@ -67,7 +67,7 @@ def readInput(filename):
                 requiredLvl = int(words[1])
                 temp.addRole(skillNeeded, requiredLvl)
 
-            projects.append([temp.sortingValue(0) ,temp])
+            projects.append((temp.sortingValue(0) ,temp))
     return contributors, projects, skd
 
 
@@ -140,7 +140,7 @@ def run(fileName):
 
     while projectsWorthPointsAreAvailable:
         for _ in projectPQ:
-            _[0] = _[1].sortingValue(day)
+            _ = (_[1].sortingValue(day), _[1])
 
         heapq.heapify(projectPQ)
 
@@ -151,7 +151,7 @@ def run(fileName):
             if projectAssigned == -1:
                 laterList.append(currPrj)
             else:
-                currPrjPQ.append([currPrj.numberOfDays-1, currPrj[1]])
+                currPrjPQ.append((currPrj.numberOfDays-1, currPrj[1]))
                 projectOrder.append(currPrj[1])
         
         projectPQ += laterList
@@ -168,12 +168,6 @@ def run(fileName):
         day += 1
 
     output("output.txt", projectCount, projectOrder)
-
-
-    
-
-        
-
 
 
 if __name__ == "__main__":
