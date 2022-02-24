@@ -6,6 +6,12 @@ def run(filename):
 
         firstLine = inFile.readline()
         secondLine = inFile.readline()
+
+        print(firstLine )
+        print(secondLine)
+    
+    with open("output.txt","w") as outFile:
+        outFile.write("hey")
         
 
         
