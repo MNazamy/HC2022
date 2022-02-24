@@ -7,6 +7,9 @@ class Project:
         self.numRoles = r
         self.rolesRequired = []
     
+    def __lt__(self, other):
+        return self.currScore < other.currScore
+        
 
     def addRole(self,skillName, skillLvl):
         self.rolesRequired.append( (skillName, skillLvl) )
@@ -43,5 +46,6 @@ class Project:
     def sortingValue(self, currentDay):
         bestByOverage = self.bestBefore - currentDay - self.numberOfDays
         if bestByOverage >= 0: bestByOverage = 0
+        self.currScore = (self.score - bestByOverage) / self.numberOfDays 
         return (self.score - bestByOverage) / self.numberOfDays
 
