@@ -27,7 +27,7 @@ class Project:
 
         for contributor in self.contributorList:
           contributor.completeProject()
-        
+
         if currDay <= self.bestBefore:
             return self.score
         elif currDay-self.bestBefore < self.score:

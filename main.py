@@ -70,7 +70,7 @@ def readInput(filename):
             projects.append([temp.sortingValue(0) ,temp])
     return contributors, projects, skd
 
-    
+
 
 def output(filename, pcount, plist):
     with open(filename, "w") as file:
@@ -83,6 +83,30 @@ def output(filename, pcount, plist):
             file.write(s)
 
 
+def checkProject(currDay, project, pplAvail, skillDict):
+    roleList = [None] *  project.numRoles
+
+    for i in range(project.numRoles): # for every role in this project
+        role = project.rolesRequired[i]
+        maxSkillLvl = max(skillDict[role[0]].keys())
+        found = False
+        for j in range(role[1],maxSkillLvl+1): # 
+            try:
+                personList = skillDict[role[0]][j]
+                for k in range(len(personList)):
+                    if not personList[k].isOnProject():
+                        person = personList[k]
+                        personList.remove(k)
+                        roleList[i] = person
+                        found = True
+                break
+            except:
+                pass
+
+        if(found == False): # if we find one failure, stop here, try to look for a mentor and return -1
+            return -1, pplAvail
+
+    return project.startProject(currDay, roleList), (pplAvail - project.numRoles)
 
 def run(fileName):
     # str (skill) -> int (skill level) -> list of people
