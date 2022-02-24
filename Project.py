@@ -1,12 +1,11 @@
 class Project:
-    rolesRequired = []
-
     def __init__(self, n, d, s, b, r):
         self.name = n
         self.numberOfDays = d
         self.score = s
         self.bestBefore = b
         self.numRoles = r
+        self.rolesRequired = []
     
     def addRole(self,skillName, skillLvl):
         self.rolesRequired.append( (skillName, skillLvl) )

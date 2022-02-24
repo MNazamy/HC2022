@@ -1,5 +1,4 @@
 
-from turtle import clear
 from Contributor import Contributor
 from Project import Project
 
@@ -34,7 +33,7 @@ def readInput(filename):
             contributors.append(temp)
 
             #Loop for project input
-        for _ in range(clear):
+        for _ in range(numProjects):
             line = inFile.readline()
             words = line.split()
             projectName = words[0]
