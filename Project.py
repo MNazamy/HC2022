@@ -6,8 +6,8 @@ class Project:
         self.bestBefore = b
         self.numRoles = r
         self.rolesRequired = []
-
     
+
     def addRole(self,skillName, skillLvl):
         self.rolesRequired.append( (skillName, skillLvl) )
 
