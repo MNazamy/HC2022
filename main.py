@@ -1,6 +1,7 @@
 
 from Contributor import Contributor
 from Project import Project
+import heapq
 
 def readInput(filename):
     
@@ -57,8 +58,20 @@ def readInput(filename):
 
 
 
+
 def run(fileName):
+    # str (skill) -> int (skill level) -> list of people
+    skillDict = {}
+
+    # list of all people available for work
+    peopleAvailable = []
+
+    #priority queue of projects
+    projectPQ = []
+
+
     readInput(fileName)
+
 
     
 
