@@ -147,7 +147,7 @@ def run(fileName):
         projectAssigned = -1
         while(len(projectPQ) > 0 and numPeopleAvail > 0 and projectPQ[0][0] > 0):
             currPrj = heapq.heappop(projectPQ)
-            projectAssigned, numPeopleAvail = checkProject(currPrj[1], peopleAvailable, skillDict, numPeopleAvail)
+            projectAssigned, numPeopleAvail = checkProject(day, currPrj[1], numPeopleAvail,  skillDict)
             if projectAssigned == -1:
                 laterList.append(currPrj)
             else:
