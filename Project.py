@@ -6,17 +6,38 @@ class Project:
         self.bestBefore = b
         self.numRoles = r
         self.rolesRequired = []
+
     
     def addRole(self,skillName, skillLvl):
         self.rolesRequired.append( (skillName, skillLvl) )
+
+    def startProject(self, currDay, cl):
+        self.contributorList = cl
+        for contributor in self.contributorList:
+            contributor.assignToProject()
+
+        self.finishDay = currDay + self.numberOfDays
+        return self.finishDay
+
+
+    def finishProject(self, currDay):
+        for i in range(self.numRoles):
+            if self.contributorList[i].checkSkillLevel() <= self.rolesRequired[i][1]:
+                self.contributorList[i].upgradeSkill()
+
+        for contributor in self.contributorList:
+          contributor.completeProject()
+        
+        if currDay <= self.bestBefore:
+            return self.score
+        elif currDay-self.bestBefore < self.score:
+            return self.score-(currDay-self.bestBefore)
+        else:
+            return 0
+        
 
     def sortingValue(self, currentDay):
         bestByOverage = self.bestBefore - currentDay - self.numberOfDays
         if bestByOverage >= 0: bestByOverage = 0
         return (self.score - bestByOverage) / self.numberOfDays
 
-
-    def debug(self):
-        print(f"Project Name: {self.name} - {self.numberOfDays} - {self.score} - {self.bestBefore} - {self.numRoles}")
-        for i in self.rolesRequired:
-            print(f"   {i[0]} -- {i[1]} ")

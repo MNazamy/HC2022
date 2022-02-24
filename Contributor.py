@@ -17,13 +17,15 @@ class Contributor:
     def completeProject(self):
         self.onProject = False
     
-    def upgradeSkill(self):
-        pass
+    def upgradeSkill(self,skillName):
+        if (self.skills.get(skillName, default=0) > 0):
+            self.skills[skillName] = self.skills.get(skillName) + 1
+        else:
+            self.skills[skillName] = 1 
 
-    def hasSkill(self):
-        pass
+    def checkSkillLevel(self, skillName):
+        if (self.skills.get(skillName, default=0) > 0):
+            return self.skills.get(skillName)
+        else:
+            return 0 
     
-    def debug(self):
-        print(f"My name is {self.name} and I'm good at: ")
-        for i in self.skills.keys():
-            print(f"      {i} -- {self.skills[i]} ")
